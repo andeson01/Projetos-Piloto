@@ -39,16 +39,23 @@ def transferirValor():
     except ValueError:
         print("ERRO: Digite um valor numérico válido para a transferência.\n\n")
 
+def depositarValor ():
+    global saldoDisponivel
+    valorDeposito = float(input("DIGITE O VALOR QUE VOCÊ VAI DEPOSITAR: "))
+    saldoDisponivel = valorDeposito + saldoDisponivel
+    print(f"Depósito de R${valorDeposito} realizado com sucesso")
+
 # --- PROGRAMA PRINCIPAL ---
 saldoDisponivel = 5000
 
 while True:
     print("""
             OPERAÇÕES
-        1 - CONSULTAR SALDOS
+        1 - CONSULTAR SALDO
         2 - SACAR VALOR
         3 - TRANSFERIR VALOR
-        4 - SAIR
+        4 - DEPOSITAR VALOR
+        5 - SAIR
     """)
     
     try:
@@ -61,6 +68,8 @@ while True:
         elif opcaoDigitada == 3:
             transferirValor()
         elif opcaoDigitada == 4:
+            depositarValor()
+        elif opcaoDigitada == 5:
             confirmar = input("DESEJA REALMENTE SAIR? (S/N): ").upper()
             if confirmar == "S":
                 print("ENCERRANDO SISTEMA... ATÉ LOGO!")
@@ -73,4 +82,4 @@ while True:
                   """)
             
     except ValueError:
-        print("ERRO: Digite apenas o número da opção (1, 2, 3 ou 4).")
+        print("ERRO: Digite apenas o número da opção (1, 2, 3, 4 ou 5).")
