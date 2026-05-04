@@ -1,26 +1,76 @@
-def imprimirComprovante(resposta):
+def imprimirComprovante():
+    resposta = input("Deseja imprimir o comprovante? (S/N): ").upper()
     if resposta == "S":
         print("Imprimindo comprovante...\n")
-        
     elif resposta == "N":
-        print("Saque realizado sem comprovante.\n")
+        print("Operação realizada sem comprovante.\n")
     else:
         print("Comando não reconhecido.\n")
 
+def consultarValor():
+    print(f"\n---- SALDO DISPONÍVEL: R${saldoDisponivel:.2f} ----")
 
-saldoDisponivel = 3000
+def sacarValor():
+    global saldoDisponivel
+    try:
+        valorSaque = float(input("DIGITE O VALOR QUE DESEJA SACAR: "))
+        if valorSaque <= saldoDisponivel:
+            saldoDisponivel -= valorSaque
+            print(f"\nSaque de R${valorSaque:.2f} realizado com sucesso!\n")
+            imprimirComprovante()
+        else:
+            print("SALDO INSUFICIENTE!\n")
+    except ValueError:
+        print("ERRO: Digite um valor numérico válido para o saque.\n")
+
+def transferirValor():
+    global saldoDisponivel
+    nomePessoa = input("\nDIGITE O NOME DE QUEM VOCÊ VAI TRANSFERIR: ")
+    
+    try:
+        valorTransferencia = float(input("DIGITE O VALOR QUE DESEJA TRANSFERIR: "))
+        
+        if valorTransferencia <= saldoDisponivel:
+            saldoDisponivel -= valorTransferencia
+            print(f"\nTransferência para {nomePessoa} no valor de R${valorTransferencia:.2f} realizada!\n")
+            imprimirComprovante()
+        else:
+            print("SALDO INSUFICIENTE PARA TRANSFERÊNCIA!\n")
+    except ValueError:
+        print("ERRO: Digite um valor numérico válido para a transferência.\n\n")
+
+# --- PROGRAMA PRINCIPAL ---
+saldoDisponivel = 5000
+
 while True:
-    valorSaque = float(input(f"Saldo disponível: R${saldoDisponivel}\nQuanto você vai sacar?\n"))
+    print("""
+            OPERAÇÕES
+        1 - CONSULTAR SALDOS
+        2 - SACAR VALOR
+        3 - TRANSFERIR VALOR
+        4 - SAIR
+    """)
+    
+    try:
+        opcaoDigitada = int(input("DIGITE A OPÇÃO DESEJADA: "))
 
-    if valorSaque > 0 and valorSaque <= saldoDisponivel:
-        print("Saque aprovado\n")
-        saldoDisponivel -= valorSaque #atualiza o valor
-        escolha = input("Deseja imprimir o comprovante (S/N) ?\n").upper()
-        imprimirComprovante(escolha)
-    else:
-        print("Saque negado.\n")
-
-    comando = int(input("Digite 1 para continuar e 0 para parar a execução\n"))
-    if comando == 0:
-        print(f"Sobrou R${saldoDisponivel}, encerrando o sistema. Até logo!")
-        break
+        if opcaoDigitada == 1:
+            consultarValor()
+        elif opcaoDigitada == 2:
+            sacarValor()
+        elif opcaoDigitada == 3:
+            transferirValor()
+        elif opcaoDigitada == 4:
+            confirmar = input("DESEJA REALMENTE SAIR? (S/N): ").upper()
+            if confirmar == "S":
+                print("ENCERRANDO SISTEMA... ATÉ LOGO!")
+                break
+        else:
+            print("""
+                  
+                  OPÇÃO INVÁLIDA!
+                  
+                  """)
+            
+    except ValueError:
+        print("ERRO: Digite apenas o número da opção (1, 2, 3 ou 4).")
